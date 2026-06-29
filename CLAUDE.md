@@ -28,9 +28,6 @@ DDD 계층형 모놀리스. 바운디드 컨텍스트: **Auth** / **Member** / *
 - `domain/` → application·presentation·infrastructure import 금지 (단, JPA 어노테이션·`CoreException`·`ErrorType` 허용 — 실용적 선택)
 - `presentation/` → infrastructure 직접 import 금지 (application 경유)
 
-**DTO 흐름** — 레이어 간 DTO 누수 금지:
-`XxxRequest` (presentation) → `XxxCommand` (application) → `XxxResult` (application) → `XxxResponse` (presentation)
-
 **서비스 분리**: `XxxCommandService`(생명주기) / `XxxQueryService`(조회, 클래스 레벨 `@Transactional(readOnly=true)`) / `XxxYyyService`(도메인 행위) / `XxxFacade`(서비스 조합)
 
 ## 개발 원칙

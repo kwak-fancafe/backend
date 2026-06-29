@@ -20,11 +20,10 @@ public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
     @Override
     public void handleUncaughtException(@NonNull Throwable throwable, @NonNull Method method, Object @NonNull ... params) {
         if (throwable instanceof CoreException e) {
-            String logMessage = String.format("비동기 작업 중 CoreException 발생 - Method: %s, ErrorType: %s, Message: %s, Data: %s",
+            String logMessage = String.format("비동기 작업 중 CoreException 발생 - Method: %s, ErrorType: %s, Message: %s",
                     method.getName(),
                     e.getErrorType().name(),
-                    e.getMessage(),
-                    e.getData() != null ? e.getData().toString() : "null"
+                    e.getMessage()
             );
 
             switch (e.getErrorType().getLogLevel()) {
@@ -37,7 +36,7 @@ public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
                     method.getName(),
                     throwable.getMessage()
             );
-            log.error("{}, Args: {}", logMessage, params, throwable);
+            log.error("{} (argCount={})", logMessage, params.length, throwable);
         }
     }
 

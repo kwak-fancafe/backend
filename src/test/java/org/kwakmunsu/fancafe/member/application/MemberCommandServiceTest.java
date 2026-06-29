@@ -41,7 +41,7 @@ class MemberCommandServiceTest extends IntegrationTestSupport {
         assertThat(member).extracting(
                 Member::getRole,
                 Member::getMemberStatus
-        ).containsExactly(Role.FAN, MemberStatus.ACTIVE);
+        ).containsExactly(Role.ROLE_FAN, MemberStatus.ACTIVE);
     }
 
     @Test

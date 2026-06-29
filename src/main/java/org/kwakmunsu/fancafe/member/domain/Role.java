@@ -1,7 +1,7 @@
 package org.kwakmunsu.fancafe.member.domain;
 
 public enum Role {
-    FAN,
-    MANAGER,
-    CREATOR,
+    ROLE_FAN,
+    ROLE_MANAGER,
+    ROLE_CREATOR,
 }

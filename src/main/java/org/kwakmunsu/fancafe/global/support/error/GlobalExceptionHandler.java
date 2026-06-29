@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiResponse<?>> handleConstraintViolationException(ConstraintViolationException e) {
-        ErrorType errorType = ErrorType.BAD_REQUEST;
+        ErrorType errorType = ErrorType.DEFAULT_BAD_REQUEST;
 
         Map<String, String> validationData = e.getConstraintViolations().stream()
                 .collect(Collectors.toMap(
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        ErrorType errorType = ErrorType.BAD_REQUEST;
+        ErrorType errorType = ErrorType.DEFAULT_BAD_REQUEST;
 
         Map<String, String> validationData = e.getFieldErrors().stream()
                 .collect(Collectors.toMap(FieldError::getField,
@@ -99,7 +99,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse<?>> handleMethodArgumentMismatchException(MethodArgumentTypeMismatchException e) {
-        ErrorType errorType = ErrorType.BAD_REQUEST;
+        ErrorType errorType = ErrorType.DEFAULT_BAD_REQUEST;
         String paramName = e.getParameter().getParameterName() != null
                 ? e.getParameter().getParameterName()
                 : "unknown";
@@ -117,7 +117,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ApiResponse<?>> handleMissingServletRequestParameterException(
             MissingServletRequestParameterException e) {
-        ErrorType errorType = ErrorType.BAD_REQUEST;
+        ErrorType errorType = ErrorType.DEFAULT_BAD_REQUEST;
         String paramName = e.getParameterName();
         String paramType = e.getParameterType();
         String message = paramType + " 타입의" + " [ " + paramName + " ] " + "파라미터가 누락되었습니다.";
@@ -134,7 +134,7 @@ public class GlobalExceptionHandler {
         log.warn("[OptimisticLock] 동시 처리 충돌 발생: {}", e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(ApiResponse.error(ErrorType.CONCURRENT_UPDATE_CONFLICT));
+                .body(ApiResponse.error(ErrorType.DEFAULT_CONCURRENT_UPDATE_CONFLICT));
     }
 
     @ExceptionHandler({PessimisticLockingFailureException.class, LockTimeoutException.class})
@@ -142,12 +142,12 @@ public class GlobalExceptionHandler {
         log.warn("[PessimisticLock] 락 획득 실패 (타임아웃): {}", e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(ApiResponse.error(ErrorType.LOCK_ACQUISITION_TIMEOUT));
+                .body(ApiResponse.error(ErrorType.DEFAULT_LOCK_ACQUISITION_TIMEOUT));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponse<?>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        ErrorType errorType = ErrorType.BAD_REQUEST;
+        ErrorType errorType = ErrorType.DEFAULT_BAD_REQUEST;
         log.warn("[HttpMessageNotReadableException] 요청 본문을 파싱할 수 없습니다: {}", e.getMessage());
         return ResponseEntity
                 .status(errorType.getStatus())
@@ -156,7 +156,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiResponse<?>> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        ErrorType errorType = ErrorType.METHOD_NOT_ALLOWED;
+        ErrorType errorType = ErrorType.DEFAULT_METHOD_NOT_ALLOWED;
         log.warn("[HttpRequestMethodNotSupportedException] 지원하지 않는 메서드: {}", e.getMethod());
         return ResponseEntity
                 .status(errorType.getStatus())
@@ -165,7 +165,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({NoHandlerFoundException.class, NoResourceFoundException.class})
     public ResponseEntity<ApiResponse<?>> handleNoHandlerFoundException(Exception e) {
-        ErrorType errorType = ErrorType.NOT_FOUND;
+        ErrorType errorType = ErrorType.DEFAULT_NOT_FOUND;
         log.warn("[{}] 존재하지 않는 엔드포인트: {}", e.getClass().getSimpleName(), e.getMessage());
         return ResponseEntity
                 .status(errorType.getStatus())

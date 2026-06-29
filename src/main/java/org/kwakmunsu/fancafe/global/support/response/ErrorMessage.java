@@ -9,11 +9,11 @@ public record ErrorMessage(
 ) {
 
     public ErrorMessage(ErrorType errorType) {
-        this(errorType.getStatus().name(), errorType.getMessage(), null);
+        this(errorType.name(), errorType.getMessage(), null);
     }
 
     public ErrorMessage(ErrorType errorType, Object data) {
-        this(errorType.getStatus().name(), errorType.getMessage(), data);
+        this(errorType.name(), errorType.getMessage(), data);
     }
 
 }

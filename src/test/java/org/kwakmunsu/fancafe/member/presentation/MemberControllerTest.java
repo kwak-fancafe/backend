@@ -23,13 +23,15 @@ class MemberControllerTest extends ControllerTestSupport {
         var request = new MemberRegisterRequest("user01", "Pass1!aa", "홍길동");
 
         mvcTester.post()
-                .uri("/api/members")
+                .uri("/api/v1/members")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request))
                 .assertThat()
                 .hasStatus(HttpStatus.CREATED)
                 .bodyJson()
-                .extractingPath("$.result").isEqualTo("SUCCESS");
+                .hasPathSatisfying("$.result", v -> v.assertThat().isEqualTo("SUCCESS"))
+                .hasPathSatisfying("$.data", v -> v.assertThat().isEqualTo(1));
+
     }
 
 }

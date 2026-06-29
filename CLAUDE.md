@@ -4,12 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Current State
 
-초기 설정 단계 — 진입점과 `application.yaml`(앱 이름만)만 존재. 도메인 클래스·설정·테스트 없음.
+글로벌 인프라(에러 핸들링·응답 래퍼·로깅·Base Entity)와 모든 BC 스캐폴딩 완료.
+테스트 지원 클래스(`UnitTestSupport`, `IntegrationTestSupport`, `ControllerTestSupport`) 추가됨.
+환경별 `application.yml` 파일 존재 (local·dev·prod·test).
 
 **루트 패키지**: `org.kwakmunsu.fancafe` (docs의 `com.fancafe`는 오기)
 
 **`build.gradle`에 아직 없는 의존성** — 구현 전 추가 필요:
-`spring-boot-starter-data-jpa`, `spring-boot-starter-data-redis`, QueryDSL, `spring-boot-starter-batch`, `springdoc-openapi-starter-webmvc-ui`, `org.jsoup:jsoup`, `spring-boot-starter-validation`, AWS S3 SDK
+`spring-boot-starter-data-redis`, QueryDSL, `spring-boot-starter-batch`, `org.jsoup:jsoup`, AWS S3 SDK
 
 ## Build & Run
 
@@ -20,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-DDD 계층형 모놀리스. 바운디드 컨텍스트: **Member** / **Community** (Category·Post·Comment·Like·ViewCount) / **Admin**.
+DDD 계층형 모놀리스. 바운디드 컨텍스트: **Auth** / **Member** / **Community** (Category·Post·Comment·Like·ViewCount) / **Admin**.
 
 **레이어 금지 규칙:**
 - `domain/` → application·presentation·infrastructure import 금지 (단, JPA 어노테이션 허용 — 실용적 선택)

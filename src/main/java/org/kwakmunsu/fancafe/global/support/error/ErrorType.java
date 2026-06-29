@@ -24,6 +24,12 @@ public enum ErrorType {
 
 
     // MEMBER
+    MEMBER_INVALID_LOGIN_ID  (HttpStatus.BAD_REQUEST, "로그인 아이디 형식이 올바르지 않습니다.", LogLevel.INFO),
+    MEMBER_INVALID_NICKNAME  (HttpStatus.BAD_REQUEST, "닉네임 형식이 올바르지 않습니다.", LogLevel.INFO),
+    MEMBER_INVALID_PASSWORD  (HttpStatus.BAD_REQUEST, "비밀번호 형식이 올바르지 않습니다.", LogLevel.INFO),
+    MEMBER_CANNOT_BAN        (HttpStatus.BAD_REQUEST, "정지할 수 없는 상태의 회원입니다.", LogLevel.WARN),
+    MEMBER_CANNOT_UNBAN      (HttpStatus.BAD_REQUEST, "정지 해제할 수 없는 상태의 회원입니다.", LogLevel.WARN),
+    MEMBER_CANNOT_WITHDRAW   (HttpStatus.BAD_REQUEST, "탈퇴할 수 없는 상태의 회원입니다.", LogLevel.WARN),
 
     // AUTH
     AUTH_EMPTY_TOKEN                    (HttpStatus.UNAUTHORIZED, "JWT 토큰이 존재하지 않습니다.", LogLevel.WARN),

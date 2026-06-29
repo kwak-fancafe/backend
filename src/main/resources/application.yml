@@ -2,7 +2,7 @@ spring:
   application:
     name: fancafe
   profiles:
-    active: local
+    default: local
   web:
     resources:
       add-mappings: false

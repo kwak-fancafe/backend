@@ -60,7 +60,8 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if (!jwtProvider.isAccessToken(token)) {
-            log.warn("[JWTFilter] Access Token이 아닌 토큰이 전달되었습니다. token: {}", token);
+            log.warn("[JWTFilter] Access Token이 아닌 토큰이 전달되었습니다. path: {}", request.getServletPath());
+
             sendErrorResponse(response, ErrorType.AUTH_INVALID_TOKEN);
             return;
         }

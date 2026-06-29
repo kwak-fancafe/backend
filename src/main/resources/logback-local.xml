@@ -9,7 +9,7 @@
     </appender>
 
     <!-- Application -->
-    <logger name="org.smu.randsome.randsomeback" level="DEBUG"/>
+    <logger name="org.kwakmunsu.fancafe" level="DEBUG"/>
 
     <!-- Spring -->
     <logger name="org.springframework" level="INFO"/>
@@ -20,7 +20,7 @@
 
     <!-- Hibernate -->
     <logger name="org.hibernate.SQL" level="DEBUG"/>
-    <logger name="org.hibernate.type.descriptor.sql" level="TRACE"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE"/>
     <logger name="org.hibernate.SQL_SLOW" level="INFO"/>
 
     <root level="INFO">

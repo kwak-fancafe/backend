@@ -21,7 +21,7 @@ class MemberTest extends UnitTestSupport {
                 Member::getMemberStatus,
                 Member::getEntityStatus
         ).containsExactly(
-                Role.FAN,
+                Role.ROLE_FAN,
                 MemberStatus.ACTIVE,
                 EntityStatus.ACTIVE
         );
@@ -107,9 +107,9 @@ class MemberTest extends UnitTestSupport {
     void 역할_변경_성공() {
         Member member = MemberFixture.member();
 
-        member.changeRole(Role.MANAGER);
+        member.changeRole(Role.ROLE_MANAGER);
 
-        assertThat(member.getRole()).isEqualTo(Role.MANAGER);
+        assertThat(member.getRole()).isEqualTo(Role.ROLE_MANAGER);
     }
 
     @Test

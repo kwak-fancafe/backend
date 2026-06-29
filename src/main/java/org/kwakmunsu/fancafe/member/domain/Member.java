@@ -46,7 +46,7 @@ public class Member extends BaseEntity {
         member.loginId = new LoginId(loginId);
         member.password = Password.create(password, encoder);
         member.nickname = new Nickname(nickname);
-        member.role = Role.FAN;
+        member.role = Role.ROLE_FAN;
         member.memberStatus = MemberStatus.ACTIVE;
         member.profileImageUrl = null;
 

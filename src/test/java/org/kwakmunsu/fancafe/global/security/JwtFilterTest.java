@@ -40,12 +40,12 @@ class JwtFilterTest extends UnitTestSupport {
 
     @Test
     void 로그인_경로는_필터를_건너뜀() {
-        assertThat(jwtFilter.shouldNotFilter(requestWithPath("/v1/auth/login"))).isTrue();
+        assertThat(jwtFilter.shouldNotFilter(requestWithPath("/api/v1/auth/login"))).isTrue();
     }
 
     @Test
     void 회원가입_경로는_필터를_건너뜀() {
-        assertThat(jwtFilter.shouldNotFilter(requestWithPath("/v1/members/sign-up"))).isTrue();
+        assertThat(jwtFilter.shouldNotFilter(requestWithPath("/api/v1/members/sign-up"))).isTrue();
     }
 
     @Test
@@ -55,14 +55,14 @@ class JwtFilterTest extends UnitTestSupport {
 
     @Test
     void 일반_API_경로는_필터를_실행한다() {
-        assertThat(jwtFilter.shouldNotFilter(requestWithPath("/v1/posts"))).isFalse();
+        assertThat(jwtFilter.shouldNotFilter(requestWithPath("/api/v1/posts"))).isFalse();
     }
 
     // ---- 토큰 없음 ----
 
     @Test
     void Authorization_헤더_없으면_401_AUTH_EMPTY_TOKEN_응답() throws Exception {
-        var req = requestWithPath("/v1/posts");
+        var req = requestWithPath("/api/v1/posts");
         var res = new MockHttpServletResponse();
 
         jwtFilter.doFilterInternal(req, res, filterChain);
@@ -74,7 +74,7 @@ class JwtFilterTest extends UnitTestSupport {
 
     @Test
     void Bearer_접두사_없는_헤더면_401_AUTH_EMPTY_TOKEN_응답() throws Exception {
-        var req = requestWithPath("/v1/posts");
+        var req = requestWithPath("/api/v1/posts");
         req.addHeader("Authorization", "Basic sometoken");
         var res = new MockHttpServletResponse();
 
@@ -89,7 +89,7 @@ class JwtFilterTest extends UnitTestSupport {
 
     @Test
     void 유효하지_않은_토큰이면_401_AUTH_INVALID_TOKEN_응답() throws Exception {
-        var req = requestWithPath("/v1/posts");
+        var req = requestWithPath("/api/v1/posts");
         req.addHeader("Authorization", "Bearer invalidtoken");
         var res = new MockHttpServletResponse();
 
@@ -106,7 +106,7 @@ class JwtFilterTest extends UnitTestSupport {
 
     @Test
     void Refresh_토큰을_Access_자리에_사용하면_401_AUTH_INVALID_TOKEN_응답() throws Exception {
-        var req = requestWithPath("/v1/posts");
+        var req = requestWithPath("/api/v1/posts");
         req.addHeader("Authorization", "Bearer refreshtoken");
         var res = new MockHttpServletResponse();
 
@@ -124,7 +124,7 @@ class JwtFilterTest extends UnitTestSupport {
 
     @Test
     void 유효한_Access_토큰이면_SecurityContext에_인증_정보가_저장된다() throws Exception {
-        var req = requestWithPath("/v1/posts");
+        var req = requestWithPath("/api/v1/posts");
         req.addHeader("Authorization", "Bearer validtoken");
         var res = new MockHttpServletResponse();
 
@@ -144,7 +144,7 @@ class JwtFilterTest extends UnitTestSupport {
 
     @Test
     void 유효한_Access_토큰이면_필터_체인이_계속_실행된다() throws Exception {
-        var req = requestWithPath("/v1/posts");
+        var req = requestWithPath("/api/v1/posts");
         req.addHeader("Authorization", "Bearer validtoken");
         var res = new MockHttpServletResponse();
 

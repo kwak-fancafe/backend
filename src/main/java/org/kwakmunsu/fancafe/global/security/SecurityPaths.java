@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 public final class SecurityPaths {
 
     private static final String[] PERMIT_ALL = {
-            "/v1/auth/login",
-            "/v1/auth/reissue",
-            "/v1/members/sign-up",
-            "/v1/members/password",
+            "/api/v1/auth/login",
+            "/api/v1/auth/reissue",
+            "/api/v1/auth/email/**",
+            "/api/v1/members/sign-up",
+            "/api/v1/members/password",
             "/swagger/**",
             "/swagger-ui/**",
             "/v3/api-docs/**",
@@ -24,7 +25,7 @@ public final class SecurityPaths {
     };
 
     private static final String[] ADMIN = {
-            "/v1/admin/**",
+            "/api/v1/admin/**",
     };
 
     public static String[] permitAll() {

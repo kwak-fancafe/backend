@@ -47,4 +47,32 @@ class NicknameTest extends UnitTestSupport {
                 .hasMessage(ErrorType.MEMBER_INVALID_NICKNAME.getMessage());
     }
 
+    @Test
+    void 닉네임_생성_실패_공백만_있는_값() {
+        assertThatThrownBy(() -> new Nickname("   "))
+                .isInstanceOf(CoreException.class)
+                .hasMessage(ErrorType.MEMBER_INVALID_NICKNAME.getMessage());
+    }
+
+    @Test
+    void 닉네임_생성_실패_HTML_마크업_포함() {
+        assertThatThrownBy(() -> new Nickname("<b>닉</b>"))
+                .isInstanceOf(CoreException.class)
+                .hasMessage(ErrorType.MEMBER_INVALID_NICKNAME.getMessage());
+    }
+
+    @Test
+    void 닉네임_생성_실패_특수문자_포함() {
+        assertThatThrownBy(() -> new Nickname("nick!@#"))
+                .isInstanceOf(CoreException.class)
+                .hasMessage(ErrorType.MEMBER_INVALID_NICKNAME.getMessage());
+    }
+
+    @Test
+    void 닉네임_생성_성공_숫자_및_밑줄_포함() {
+        var nickname = new Nickname("user_01");
+
+        assertThat(nickname.value()).isEqualTo("user_01");
+    }
+
 }

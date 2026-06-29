@@ -31,7 +31,6 @@ public class MdcFilter extends OncePerRequestFilter {
     private static final String TRACE_ID = "traceId";
     private static final String HTTP_METHOD = "httpMethod";
     private static final String REQUEST_URI = "requestUri";
-    private static final String QUERY_STRING = "queryString";
     private static final String CLIENT_IP = "clientIp";
 
     @Override
@@ -44,7 +43,6 @@ public class MdcFilter extends OncePerRequestFilter {
             MDC.put(TRACE_ID, generateTraceId());
             MDC.put(HTTP_METHOD, request.getMethod());
             MDC.put(REQUEST_URI, request.getRequestURI());
-            MDC.put(QUERY_STRING, request.getQueryString() != null ? request.getQueryString() : "");
             MDC.put(CLIENT_IP, resolveClientIp(request));
 
             filterChain.doFilter(request, response);
@@ -58,10 +56,6 @@ public class MdcFilter extends OncePerRequestFilter {
     }
 
     private static String resolveClientIp(HttpServletRequest request) {
-        String ip = request.getHeader("X-Forwarded-For");
-        if (ip != null && !ip.isBlank()) {
-            return ip.split(",")[0].trim();
-        }
         return request.getRemoteAddr();
     }
 

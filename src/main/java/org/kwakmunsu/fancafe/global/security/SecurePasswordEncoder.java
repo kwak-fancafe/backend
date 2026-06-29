@@ -1,4 +1,4 @@
-package org.kwakmunsu.fancafe.global.infrastructure.security;
+package org.kwakmunsu.fancafe.global.security;
 
 import org.kwakmunsu.fancafe.member.domain.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

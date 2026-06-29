@@ -25,7 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 DDD 계층형 모놀리스. 바운디드 컨텍스트: **Auth** / **Member** / **Community** (Category·Post·Comment·Like·ViewCount) / **Admin**.
 
 **레이어 금지 규칙:**
-- `domain/` → application·presentation·infrastructure import 금지 (단, JPA 어노테이션 허용 — 실용적 선택)
+- `domain/` → application·presentation·infrastructure import 금지 (단, JPA 어노테이션·`CoreException`·`ErrorType` 허용 — 실용적 선택)
 - `presentation/` → infrastructure 직접 import 금지 (application 경유)
 
 **DTO 흐름** — 레이어 간 DTO 누수 금지:
@@ -67,6 +67,26 @@ DDD 계층형 모놀리스. 바운디드 컨텍스트: **Auth** / **Member** / *
 
 - **단위**: VO 검증, Entity 상태 전이, 도메인 메서드 (`Post.publish()`, `Member.ban()` 등). JUnit 5, `new`로 생성.
 - **통합**: Service(트랜잭션·객체 협력), Repository(QueryDSL·`@SQLRestriction`), Controller(권한·`@Valid`). H2 + `@DataJpaTest` / `@WebMvcTest`.
+
+**AssertJ 스타일 규칙**:
+- 예외 메시지 검증: `.hasMessage(ErrorType.XXX.getMessage())` 사용
+  ```java
+  assertThatThrownBy(() -> new Nickname(null))
+      .isInstanceOf(CoreException.class)
+      .hasMessage(ErrorType.MEMBER_INVALID_NICKNAME.getMessage());
+  ```
+- 다중 필드 검증: `extracting` + 메서드 레퍼런스 + `containsExactly` 사용
+  ```java
+  assertThat(member).extracting(
+      Member::getMemberStatus,
+      Member::getEntityStatus,
+      Member::getDeletedAt
+  ).containsExactly(
+      MemberStatus.WITHDRAWN,
+      EntityStatus.DELETED,
+      member.getDeletedAt()
+  );
+  ```
 
 ## 네이밍 & 컨벤션
 

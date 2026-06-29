@@ -1,5 +1,6 @@
 package org.kwakmunsu.fancafe;
 
+import org.kwakmunsu.fancafe.member.presentation.MemberController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -8,6 +9,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 @ActiveProfiles("test")
 @WebMvcTest(controllers = {
+        MemberController.class,
 })
 public abstract class ControllerTestSupport {
 

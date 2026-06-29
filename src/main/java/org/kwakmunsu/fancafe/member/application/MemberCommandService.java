@@ -10,6 +10,7 @@ import org.kwakmunsu.fancafe.member.domain.Member;
 import org.kwakmunsu.fancafe.member.domain.Nickname;
 import org.kwakmunsu.fancafe.member.domain.PasswordEncoder;
 import org.kwakmunsu.fancafe.member.infrastructure.MemberJpaRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -23,12 +24,18 @@ public class MemberCommandService {
     public Member register(NewMember newMember) {
         validateNoDuplicates(newMember.loginId(), newMember.nickname());
 
-        Member member = memberJpaRepository.save(Member.register(
-                newMember.loginId(),
-                newMember.password(),
-                newMember.nickname(),
-                passwordEncoder
-        ));
+        Member member;
+        try {
+            member = memberJpaRepository.save(Member.register(
+                    newMember.loginId(),
+                    newMember.password(),
+                    newMember.nickname(),
+                    passwordEncoder
+            ));
+        } catch (DataIntegrityViolationException e) {
+            // validateNoDuplicates() 통과 후 동시 요청으로 인한 유니크 제약 충돌 — 409로 변환
+            throw new CoreException(ErrorType.DEFAULT_DUPLICATE);
+        }
 
         log.info("[MemberCommandService] 회원 등록 완료 - memberId: {}", member.getId());
         return member;

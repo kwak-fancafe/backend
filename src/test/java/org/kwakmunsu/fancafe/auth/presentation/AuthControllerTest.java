@@ -19,7 +19,7 @@ class AuthControllerTest extends ControllerTestSupport {
 
     @Test
     void 로그인_성공() {
-        given(authFacade.login(any(), any())).willReturn(
+        given(authFacade.login(any(String.class), any(String.class))).willReturn(
                 TokenResponse.builder().accessToken("access").refreshToken("refresh").build()
         );
 
@@ -37,7 +37,7 @@ class AuthControllerTest extends ControllerTestSupport {
 
     @Test
     void 토큰_재발급_성공() {
-        given(authFacade.reissue(any())).willReturn(
+        given(authFacade.reissue(any(String.class))).willReturn(
                 TokenResponse.builder().accessToken("newAccess").refreshToken("newRefresh").build()
         );
 

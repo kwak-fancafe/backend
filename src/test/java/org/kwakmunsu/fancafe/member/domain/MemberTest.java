@@ -143,14 +143,16 @@ class MemberTest extends UnitTestSupport {
     void 비밀번호_검증_성공() {
         var member = MemberFixture.member();
 
-        assertThat(member.verifyPassword(MemberFixture.RAW_PASSWORD, MemberFixture.ENCODER)).isTrue();
+        member.verifyPassword(MemberFixture.RAW_PASSWORD, MemberFixture.ENCODER);
     }
 
     @Test
     void 비밀번호_검증_실패() {
         var member = MemberFixture.member();
 
-        assertThat(member.verifyPassword("Wrong1!aa", MemberFixture.ENCODER)).isFalse();
+        assertThatThrownBy(() -> member.verifyPassword("Wrong1!aa", MemberFixture.ENCODER))
+            .isInstanceOf(CoreException.class)
+            .hasMessage(ErrorType.MEMBER_NOT_FOUND_ACCOUNT.getMessage());
     }
 
 }

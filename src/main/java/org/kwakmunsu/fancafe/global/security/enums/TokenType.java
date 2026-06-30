@@ -19,4 +19,8 @@ public enum TokenType {
         return ACCESS.getValue().equals(tokenType);
     }
 
+    public static boolean isRefreshToken(String tokenType) {
+        return REFRESH.getValue().equals(tokenType);
+    }
+
 }

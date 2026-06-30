@@ -31,8 +31,7 @@ public class RefreshToken extends BaseEntity {
 
         refreshToken.memberId = memberId;
         refreshToken.tokenHash = TokenHasher.hash(rawToken);
-        refreshToken.expiresAt = LocalDateTime.now().plusDays(TokenExpiration.REFRESH_TOKEN.getExpirationTime() / 1000);
-
+        refreshToken.expiresAt = LocalDateTime.now().plusSeconds(TokenExpiration.REFRESH_TOKEN.getExpirationTime() / 1000);
         return refreshToken;
     }
 
@@ -42,7 +41,7 @@ public class RefreshToken extends BaseEntity {
 
     public void rotate(String newRawToken) {
         this.tokenHash = TokenHasher.hash(newRawToken);
-        this.expiresAt = LocalDateTime.now().plusDays(TokenExpiration.REFRESH_TOKEN.getExpirationTime() / 1000);
+        this.expiresAt = LocalDateTime.now().plusSeconds(TokenExpiration.REFRESH_TOKEN.getExpirationTime() / 1000);
     }
 
 }

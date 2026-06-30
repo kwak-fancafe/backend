@@ -30,6 +30,7 @@ public enum ErrorType {
     MEMBER_CANNOT_BAN         (HttpStatus.BAD_REQUEST, "정지할 수 없는 상태의 회원입니다.", LogLevel.WARN),
     MEMBER_CANNOT_UNBAN       (HttpStatus.BAD_REQUEST, "정지 해제할 수 없는 상태의 회원입니다.", LogLevel.WARN),
     MEMBER_CANNOT_WITHDRAW    (HttpStatus.BAD_REQUEST, "탈퇴할 수 없는 상태의 회원입니다.", LogLevel.WARN),
+    MEMBER_NOT_FOUND_ACCOUNT  (HttpStatus.NOT_FOUND, "존재하지 않는 계정입니다.", LogLevel.INFO),
     MEMBER_DUPLICATE_LOGIN_ID (HttpStatus.CONFLICT, "이미 존재하는 로그인 아이디입니다.", LogLevel.INFO),
     MEMBER_DUPLICATE_NICKNAME (HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다.", LogLevel.INFO),
 
@@ -37,6 +38,9 @@ public enum ErrorType {
     AUTH_EMPTY_TOKEN                    (HttpStatus.UNAUTHORIZED, "JWT 토큰이 존재하지 않습니다.", LogLevel.WARN),
     AUTH_INVALID_TOKEN                  (HttpStatus.UNAUTHORIZED, "유효하지 않은 JWT 토큰입니다.", LogLevel.WARN),
     AUTH_EMPTY_SECURITY_CONTEXT         (HttpStatus.UNAUTHORIZED, "Security Context 에 인증 정보가 없습니다.", LogLevel.WARN),
+    AUTH_EXPIRED_REFRESH_TOKEN          (HttpStatus.UNAUTHORIZED, "만료되었거나 유효하지 않은 리프레시 토큰입니다.", LogLevel.WARN),
+    AUTH_REFRESH_TOKEN_NOT_FOUND        (HttpStatus.UNAUTHORIZED, "리프레시 토큰을 찾을 수 없습니다. 다시 로그인해주세요.", LogLevel.INFO),
+    AUTH_REFRESH_TOKEN_MISMATCH         (HttpStatus.UNAUTHORIZED, "리프레시 토큰이 일치하지 않습니다.", LogLevel.WARN),
 
     ;
 

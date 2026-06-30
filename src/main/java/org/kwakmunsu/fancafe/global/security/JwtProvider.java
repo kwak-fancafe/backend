@@ -40,7 +40,7 @@ public class JwtProvider {
 
     public TokenResponse createTokens(Long memberId, Role role) {
         String accessToken = createAccessToken(memberId, role);
-        String refreshToken = createRefreshToken(role);
+        String refreshToken = createRefreshToken(memberId, role);
 
         return TokenResponse.builder()
                 .accessToken(accessToken)
@@ -55,6 +55,20 @@ public class JwtProvider {
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
+    }
+
+    public boolean isRefreshToken(String token) {
+        try {
+            Claims claims = getClaimsFromToken(token);
+            return TokenType.isRefreshToken(claims.get(CATEGORY_KEY, String.class));
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    public Long getMemberIdFromToken(String token) {
+        Claims claims = getClaimsFromToken(token);
+        return Long.parseLong(claims.getSubject());
     }
 
     public Authentication getAuthentication(String token) {
@@ -107,11 +121,12 @@ public class JwtProvider {
         return now.plusSeconds(expiration.getExpirationTime() / 1000);
     }
 
-    private String createRefreshToken(Role role) {
+    private String createRefreshToken(Long memberId, Role role) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expiry = getTokenExpirationTime(now, TokenExpiration.REFRESH_TOKEN);
 
         return Jwts.builder()
+                .subject(String.valueOf(memberId))
                 .claim(CATEGORY_KEY, TokenType.REFRESH.getValue())
                 .claim(TokenType.AUTHORIZATION_HEADER.getValue(), role)
                 .issuedAt(toDate(now))

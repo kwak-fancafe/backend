@@ -1,5 +1,7 @@
 package org.kwakmunsu.fancafe;
 
+import org.kwakmunsu.fancafe.auth.application.AuthFacade;
+import org.kwakmunsu.fancafe.auth.presentation.AuthController;
 import org.kwakmunsu.fancafe.global.security.TestSecurityConfig;
 import org.kwakmunsu.fancafe.member.application.MemberFacade;
 import org.kwakmunsu.fancafe.member.presentation.MemberController;
@@ -15,6 +17,7 @@ import tools.jackson.databind.json.JsonMapper;
 @Import(TestSecurityConfig.class)
 @WebMvcTest(controllers = {
         MemberController.class,
+        AuthController.class,
 })
 public abstract class ControllerTestSupport {
 
@@ -26,5 +29,8 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected MemberFacade memberFacade;
+
+    @MockitoBean
+    protected AuthFacade authFacade;
 
 }

@@ -22,9 +22,9 @@ public class MemberQueryService {
         Member member = memberJpaRepository.findByLoginId(new LoginId(loginId))
                 .orElseThrow(() -> new CoreException(ErrorType.MEMBER_NOT_FOUND_ACCOUNT));
 
-        if (member.verifyPassword(password, passwordEncoder)) return member;
+        member.verifyPassword(password, passwordEncoder);
 
-        throw new CoreException(ErrorType.MEMBER_NOT_FOUND_ACCOUNT);
+        return member;
     }
 
     public Member getById(Long memberId) {

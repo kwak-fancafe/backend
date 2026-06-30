@@ -86,8 +86,11 @@ public class Member extends BaseEntity {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public boolean verifyPassword(String rawPassword, PasswordEncoder encoder) {
-        return password.matches(rawPassword, encoder);
+    public void verifyPassword(String rawPassword, PasswordEncoder encoder) {
+        if (password.matches(rawPassword, encoder)) {
+            return;
+        }
+        throw new CoreException(ErrorType.MEMBER_NOT_FOUND_ACCOUNT);
     }
 
 }

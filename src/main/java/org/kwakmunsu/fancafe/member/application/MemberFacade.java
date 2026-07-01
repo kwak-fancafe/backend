@@ -10,11 +10,16 @@ import org.springframework.stereotype.Component;
 public class MemberFacade {
 
     private final MemberCommandService memberCommandService;
+    private final MemberQueryService memberQueryService;
 
     public Long register(NewMember newMember) {
         Member member = memberCommandService.register(newMember);
 
         return member.getId();
+    }
+
+    public Member find(Long memberId) {
+        return memberQueryService.getById(memberId);
     }
 
 }

@@ -1,6 +1,7 @@
 package org.kwakmunsu.fancafe.member.application;
 
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.fancafe.global.support.EntityStatus;
 import org.kwakmunsu.fancafe.global.support.error.CoreException;
 import org.kwakmunsu.fancafe.global.support.error.ErrorType;
 import org.kwakmunsu.fancafe.member.domain.LoginId;
@@ -28,8 +29,8 @@ public class MemberQueryService {
     }
 
     public Member getById(Long memberId) {
-        return memberJpaRepository.findById(memberId)
-                .orElseThrow(() -> new CoreException(ErrorType.MEMBER_NOT_FOUND_ACCOUNT));
+        return memberJpaRepository.findByIdAndStatus(memberId, EntityStatus.ACTIVE)
+                .orElseThrow(() -> new CoreException(ErrorType.MEMBER_NOT_FOUND));
     }
 
 }

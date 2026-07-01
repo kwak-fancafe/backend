@@ -2,10 +2,14 @@ package org.kwakmunsu.fancafe.member.presentation;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.kwakmunsu.fancafe.global.security.annotation.LoginMember;
 import org.kwakmunsu.fancafe.global.support.response.ApiResponse;
 import org.kwakmunsu.fancafe.member.application.MemberFacade;
+import org.kwakmunsu.fancafe.member.domain.Member;
+import org.kwakmunsu.fancafe.member.presentation.dto.MemberProfile;
 import org.kwakmunsu.fancafe.member.presentation.dto.MemberRegisterRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,6 +27,13 @@ public class MemberController extends MemberControllerDocs {
         Long memberId = memberFacade.register(request.toNewMember());
 
         return ApiResponse.success(memberId);
+    }
+
+    @GetMapping("/api/v1/members/me")
+    public ApiResponse<MemberProfile> getMemberProfile(@LoginMember Long memberId) {
+        Member member = memberFacade.find(memberId);
+
+        return ApiResponse.success(MemberProfile.from(member));
     }
 
 }

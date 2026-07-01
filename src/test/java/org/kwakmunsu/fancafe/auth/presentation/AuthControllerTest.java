@@ -53,13 +53,9 @@ class AuthControllerTest extends ControllerTestSupport {
 
     @Test
     void 로그아웃_성공() {
-        var auth = new UsernamePasswordAuthenticationToken(
-                1L, null, List.of(new SimpleGrantedAuthority("ROLE_FAN"))
-        );
-
         mvcTester.post()
                 .uri("/api/v1/auth/logout")
-                .with(SecurityMockMvcRequestPostProcessors.authentication(auth))
+                .with(ControllerTestSupport.fanAuth())
                 .assertThat()
                 .hasStatus(HttpStatus.OK)
                 .bodyJson()

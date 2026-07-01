@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostCommandService {
 
+    private static final Safelist TITLE_SAFELIST = Safelist.none();
     private static final Safelist CONTENT_SAFELIST = Safelist.relaxed();
 
     private final PostJpaRepository postJpaRepository;
@@ -33,7 +34,7 @@ public class PostCommandService {
                 .orElseThrow(() -> new CoreException(ErrorType.CATEGORY_NOT_FOUND));
 
         postJpaRepository.save(Post.create(
-                newPost.title(),
+                Jsoup.clean(newPost.title(), TITLE_SAFELIST),
                 Jsoup.clean(newPost.content(), CONTENT_SAFELIST),
                 newPost.status(),
                 author,

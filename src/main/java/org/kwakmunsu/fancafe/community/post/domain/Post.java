@@ -100,7 +100,7 @@ public class Post extends BaseEntity {
     }
 
     private static void validateContent(String content) {
-        if (content == null || content.length() > CONTENT_MAX_LENGTH) {
+        if (content == null || content.isBlank() || content.length() > CONTENT_MAX_LENGTH) {
             throw new CoreException(ErrorType.POST_INVALID_CONTENT);
         }
     }

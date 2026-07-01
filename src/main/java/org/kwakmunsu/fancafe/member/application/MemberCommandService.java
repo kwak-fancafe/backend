@@ -2,6 +2,7 @@ package org.kwakmunsu.fancafe.member.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.kwakmunsu.fancafe.global.support.EntityStatus;
 import org.kwakmunsu.fancafe.global.support.error.CoreException;
 import org.kwakmunsu.fancafe.global.support.error.ErrorType;
 import org.kwakmunsu.fancafe.member.application.dto.NewMember;
@@ -12,6 +13,7 @@ import org.kwakmunsu.fancafe.member.domain.PasswordEncoder;
 import org.kwakmunsu.fancafe.member.infrastructure.MemberJpaRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,6 +43,21 @@ public class MemberCommandService {
         return member;
     }
 
+    @Transactional
+    public void updateProfile(Long memberId, String nickname) {
+        if (memberJpaRepository.findByNickname(new Nickname(nickname)).isPresent()) {
+            throw new CoreException(ErrorType.MEMBER_DUPLICATE_NICKNAME);
+        }
+
+        Member member = memberJpaRepository.findByIdAndStatus(memberId, EntityStatus.ACTIVE)
+                .orElseThrow(() -> new CoreException(ErrorType.MEMBER_NOT_FOUND));
+
+        member.changeNickname(nickname);
+
+        log.info("[MemberCommandService] 회원 프로필 업데이트 완료 - memberId: {}", member.getId());
+    }
+
+    // NOTE: loginId나 nickname 중복은 삭제된 회원이 존재하는 경우에도 발생할 수 있으므로, 삭제된 회원도 포함하여 중복 체크
     private void validateNoDuplicates(String loginId, String nickname) {
         if (memberJpaRepository.findByLoginId(new LoginId(loginId)).isPresent()) {
             throw new CoreException(ErrorType.MEMBER_DUPLICATE_LOGIN_ID);
@@ -49,5 +66,4 @@ public class MemberCommandService {
             throw new CoreException(ErrorType.MEMBER_DUPLICATE_NICKNAME);
         }
     }
-
 }

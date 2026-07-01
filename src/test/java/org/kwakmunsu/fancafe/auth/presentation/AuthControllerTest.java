@@ -3,7 +3,6 @@ package org.kwakmunsu.fancafe.auth.presentation;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.fancafe.ControllerTestSupport;
 import org.kwakmunsu.fancafe.auth.presentation.dto.LoginRequest;
@@ -11,9 +10,6 @@ import org.kwakmunsu.fancafe.auth.presentation.dto.ReissueRequest;
 import org.kwakmunsu.fancafe.global.security.dto.TokenResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 class AuthControllerTest extends ControllerTestSupport {
 

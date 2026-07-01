@@ -30,6 +30,7 @@ public enum ErrorType {
     MEMBER_CANNOT_BAN         (HttpStatus.BAD_REQUEST, "정지할 수 없는 상태의 회원입니다.", LogLevel.WARN),
     MEMBER_CANNOT_UNBAN       (HttpStatus.BAD_REQUEST, "정지 해제할 수 없는 상태의 회원입니다.", LogLevel.WARN),
     MEMBER_CANNOT_WITHDRAW    (HttpStatus.BAD_REQUEST, "탈퇴할 수 없는 상태의 회원입니다.", LogLevel.WARN),
+    MEMBER_CANNOT_UPDATE_PROFILE (HttpStatus.BAD_REQUEST, "프로필을 수정할 수 없는 상태의 회원입니다.", LogLevel.WARN),
     MEMBER_NOT_FOUND          (HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다.", LogLevel.INFO),
     MEMBER_NOT_FOUND_ACCOUNT  (HttpStatus.NOT_FOUND, "존재하지 않는 계정입니다.", LogLevel.INFO),
     MEMBER_DUPLICATE_LOGIN_ID (HttpStatus.CONFLICT, "이미 존재하는 로그인 아이디입니다.", LogLevel.INFO),

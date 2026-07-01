@@ -7,9 +7,11 @@ import org.kwakmunsu.fancafe.global.support.response.ApiResponse;
 import org.kwakmunsu.fancafe.member.application.MemberFacade;
 import org.kwakmunsu.fancafe.member.domain.Member;
 import org.kwakmunsu.fancafe.member.presentation.dto.MemberProfile;
+import org.kwakmunsu.fancafe.member.presentation.dto.MemberProfileUpdateRequest;
 import org.kwakmunsu.fancafe.member.presentation.dto.MemberRegisterRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,6 +36,16 @@ public class MemberController extends MemberControllerDocs {
         Member member = memberFacade.find(memberId);
 
         return ApiResponse.success(MemberProfile.from(member));
+    }
+
+    @PatchMapping(value = "/api/v1/members")
+    public ApiResponse<Void> updateMemberProfile(
+            @LoginMember Long memberId,
+            @RequestBody @Valid MemberProfileUpdateRequest request
+    ) {
+        memberFacade.updateProfile(memberId,request.nickname());
+
+        return ApiResponse.success();
     }
 
 }

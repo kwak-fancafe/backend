@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.fancafe.ControllerTestSupport;
 import org.kwakmunsu.fancafe.fixture.MemberFixture;
+import org.kwakmunsu.fancafe.member.presentation.dto.MemberProfileUpdateRequest;
 import org.kwakmunsu.fancafe.member.presentation.dto.MemberRegisterRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,5 +50,17 @@ class MemberControllerTest extends ControllerTestSupport {
                 .hasPathSatisfying("$.data.role", v -> v.assertThat().isEqualTo(member.getRole().name()));
     }
 
+    @Test
+    void 회원_프로필_변경_성공() {
+        // when & then
+        mvcTester.patch().uri("/api/v1/members")
+                .with(ControllerTestSupport.fanAuth())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsString(new MemberProfileUpdateRequest("새닉네임")))
+                .assertThat()
+                .hasStatus(HttpStatus.OK)
+                .bodyJson()
+                .hasPathSatisfying("$.result", v -> v.assertThat().isEqualTo("SUCCESS"));
+    }
 
 }

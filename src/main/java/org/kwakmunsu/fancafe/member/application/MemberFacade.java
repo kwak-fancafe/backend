@@ -22,4 +22,8 @@ public class MemberFacade {
         return memberQueryService.getById(memberId);
     }
 
+    public void updateProfile(Long memberId, String nickname) {
+        memberCommandService.updateProfile(memberId,nickname);
+    }
+
 }

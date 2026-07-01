@@ -74,4 +74,48 @@ class MemberCommandServiceTest extends IntegrationTestSupport {
                 .hasMessage(ErrorType.MEMBER_DUPLICATE_NICKNAME.getMessage());
     }
 
+    @Test
+    void 회원_프로필_변경_성공() {
+        // given
+        var newMember = NewMember.builder()
+                .loginId("newuser1")
+                .password("Pass1!aa")
+                .nickname("새유저")
+                .build();
+
+        var member = memberCommandService.register(newMember);
+
+        // when
+        String updatedNickname = "변경된닉네임";
+        memberCommandService.updateProfile(member.getId(), updatedNickname);
+
+        // then
+        var updateMember = memberJpaRepository.findById(member.getId()).orElseThrow();
+        assertThat(updateMember.getNickname().value()).isEqualTo(updatedNickname);
+    }
+
+    @Test
+    void 회원_프로필_변경_실패_nickname_중복() {
+        // given
+        var newMember = NewMember.builder()
+                .loginId("newuser1")
+                .password("Pass1!aa")
+                .nickname("user1nickname")
+                .build();
+
+        var anotherMember = NewMember.builder()
+                .loginId("newuser2")
+                .password("Pass1!aa")
+                .nickname("user2nickname")
+                .build();
+
+        memberCommandService.register(newMember);
+        var member2 = memberCommandService.register(anotherMember);
+
+        // when & then
+        assertThatThrownBy(() -> memberCommandService.updateProfile(member2.getId(), newMember.nickname()))
+            .isInstanceOf(CoreException.class)
+            .hasMessage(ErrorType.MEMBER_DUPLICATE_NICKNAME.getMessage());
+    }
+
 }

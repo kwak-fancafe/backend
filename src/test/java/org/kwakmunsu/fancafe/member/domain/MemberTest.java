@@ -19,7 +19,7 @@ class MemberTest extends UnitTestSupport {
         assertThat(member).extracting(
                 Member::getRole,
                 Member::getMemberStatus,
-                Member::getEntityStatus
+                Member::getStatus
         ).containsExactly(
                 Role.ROLE_FAN,
                 MemberStatus.ACTIVE,
@@ -35,7 +35,7 @@ class MemberTest extends UnitTestSupport {
 
         assertThat(member).extracting(
                 Member::getMemberStatus,
-                Member::getEntityStatus
+                Member::getStatus
         ).containsExactly(
                 MemberStatus.BANNED,
                 EntityStatus.ACTIVE
@@ -59,7 +59,7 @@ class MemberTest extends UnitTestSupport {
 
         assertThat(member).extracting(
                 Member::getMemberStatus,
-                Member::getEntityStatus
+                Member::getStatus
         ).containsExactly(
                 MemberStatus.WITHDRAWN,
                 EntityStatus.DELETED

@@ -79,6 +79,9 @@ public class Member extends BaseEntity {
     }
 
     public void changeNickname(String newNickname) {
+        if (this.memberStatus != MemberStatus.ACTIVE) {
+            throw new CoreException(ErrorType.MEMBER_CANNOT_UPDATE_PROFILE);
+        }
         this.nickname = new Nickname(newNickname);
     }
 

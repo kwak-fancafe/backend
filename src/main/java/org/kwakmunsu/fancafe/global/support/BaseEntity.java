@@ -35,7 +35,7 @@ public abstract class BaseEntity {
     private LocalDateTime deletedAt;
 
     @Enumerated(EnumType.STRING)
-    private EntityStatus entityStatus = EntityStatus.ACTIVE;
+    private EntityStatus status = EntityStatus.ACTIVE;
 
     @Override
     public final boolean equals(Object o) {
@@ -62,20 +62,20 @@ public abstract class BaseEntity {
     }
 
     public void active() {
-        entityStatus = EntityStatus.ACTIVE;
+        status = EntityStatus.ACTIVE;
     }
 
     public boolean isActive() {
-        return entityStatus == EntityStatus.ACTIVE;
+        return status == EntityStatus.ACTIVE;
     }
 
     public void delete() {
-        entityStatus = EntityStatus.DELETED;
+        status = EntityStatus.DELETED;
         deletedAt = LocalDateTime.now();
     }
 
     public boolean isDeleted() {
-        return entityStatus == EntityStatus.DELETED;
+        return status == EntityStatus.DELETED;
     }
 
 }

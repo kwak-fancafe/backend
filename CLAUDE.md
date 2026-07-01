@@ -57,6 +57,10 @@ DDD 계층형 모놀리스. 바운디드 컨텍스트: **Auth** / **Member** / *
 - **예외**: `CoreException` 단일 클래스. 에러 코드 형식 `{DOMAIN}_{SITUATION}`.
 - **Soft delete 대상**: `Member`, `Category`, `Post`, `Comment`에만 `@SQLRestriction`. `Like`·`ViewCount`·`VisitorStats` 제외.
 - **TDA**: 상태 전이는 도메인 메서드 내부. 서비스는 `member.ban()` 호출, 직접 setter 금지.
+- **계층 간 응답 타입**: Application(Facade/Service)은 Entity를 직접 반환. Presentation이 `XxxResponse.from(entity)` / `XxxResponse.of(a, b)`로 변환.
+  - 예외: 복잡한 집계·조합 쿼리 결과는 DTO 허용 (이 자체가 쿼리 로직)
+  - 이유: application에서 DTO를 만들면 "어떤 필드를 클라이언트에 줄지"라는 뷰 관심사가 application 계층으로 침투
+  - `from()` / `of()` 내부에서 entity getter만 호출 — 도메인 메서드 호출 금지
 
 ## 테스트
 

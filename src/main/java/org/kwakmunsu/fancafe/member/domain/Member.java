@@ -89,6 +89,12 @@ public class Member extends BaseEntity {
         this.profileImageUrl = profileImageUrl;
     }
 
+    public void validateWritePermission() {
+        if (this.role != Role.ROLE_CREATOR && this.role != Role.ROLE_MANAGER) {
+            throw new CoreException(ErrorType.MEMBER_CANNOT_WRITE_POST);
+        }
+    }
+
     public void verifyPassword(String rawPassword, PasswordEncoder encoder) {
         if (password.matches(rawPassword, encoder)) {
             return;

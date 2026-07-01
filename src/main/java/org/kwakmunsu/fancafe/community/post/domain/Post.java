@@ -23,7 +23,7 @@ public class Post extends BaseEntity {
     private static final int TITLE_MAX_LENGTH = 200;
     private static final int CONTENT_MAX_LENGTH = 50_000;
 
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false, length = TITLE_MAX_LENGTH)
     private String title;
 
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")

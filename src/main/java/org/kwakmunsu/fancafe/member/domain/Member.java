@@ -52,6 +52,7 @@ public class Member extends BaseEntity {
 
         return member;
     }
+
     public void ban() {
         if (this.memberStatus != MemberStatus.ACTIVE) {
             throw new CoreException(ErrorType.MEMBER_CANNOT_BAN);
@@ -90,9 +91,10 @@ public class Member extends BaseEntity {
     }
 
     public void validateWritePermission() {
-        if (this.role != Role.ROLE_CREATOR && this.role != Role.ROLE_MANAGER) {
-            throw new CoreException(ErrorType.MEMBER_CANNOT_WRITE_POST);
+        if (role.hasWritePermission()) {
+            return;
         }
+        throw new CoreException(ErrorType.MEMBER_CANNOT_WRITE_POST);
     }
 
     public void verifyPassword(String rawPassword, PasswordEncoder encoder) {

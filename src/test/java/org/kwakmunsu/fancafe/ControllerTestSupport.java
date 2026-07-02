@@ -3,6 +3,8 @@ package org.kwakmunsu.fancafe;
 import java.util.List;
 import org.kwakmunsu.fancafe.auth.application.AuthFacade;
 import org.kwakmunsu.fancafe.auth.presentation.AuthController;
+import org.kwakmunsu.fancafe.community.post.application.PostFacade;
+import org.kwakmunsu.fancafe.community.post.presentation.PostController;
 import org.kwakmunsu.fancafe.global.security.TestSecurityConfig;
 import org.kwakmunsu.fancafe.member.application.MemberFacade;
 import org.kwakmunsu.fancafe.member.domain.Role;
@@ -24,6 +26,7 @@ import tools.jackson.databind.json.JsonMapper;
 @WebMvcTest(controllers = {
         MemberController.class,
         AuthController.class,
+        PostController.class,
 })
 public abstract class ControllerTestSupport {
 
@@ -41,6 +44,13 @@ public abstract class ControllerTestSupport {
         return SecurityMockMvcRequestPostProcessors.authentication(auth);
     }
 
+    protected static RequestPostProcessor managerAuth() {
+        var auth = new UsernamePasswordAuthenticationToken(
+                1L, null, List.of(new SimpleGrantedAuthority(Role.ROLE_MANAGER.name()))
+        );
+        return SecurityMockMvcRequestPostProcessors.authentication(auth);
+    }
+
     @Autowired
     protected MockMvcTester mvcTester;
 
@@ -52,5 +62,8 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected AuthFacade authFacade;
+
+    @MockitoBean
+    protected PostFacade postFacade;
 
 }

@@ -10,6 +10,7 @@ import org.kwakmunsu.fancafe.global.security.SecurityPaths;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -50,6 +51,9 @@ public class SecurityConfig {
                     auth.requestMatchers("/actuator/**").denyAll();
                     auth.requestMatchers(SecurityPaths.permitAll()).permitAll();
                     auth.requestMatchers(SecurityPaths.admin()).hasRole("CREATOR");
+                    auth.requestMatchers(HttpMethod.POST, SecurityPaths.adminWithManager()).hasAnyRole("MANAGER", "CREATOR");
+                    auth.requestMatchers(HttpMethod.PATCH, SecurityPaths.adminWithManager()).hasAnyRole("MANAGER", "CREATOR");
+                    auth.requestMatchers(HttpMethod.DELETE, SecurityPaths.adminWithManager()).hasAnyRole("MANAGER", "CREATOR");
                     auth.anyRequest().hasAnyRole("FAN", "MANAGER", "CREATOR");
                 });
 

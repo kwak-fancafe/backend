@@ -9,7 +9,6 @@ public final class SecurityPaths {
     private static final String[] PERMIT_ALL = {
             "/api/v1/auth/login",
             "/api/v1/auth/reissue",
-            "/api/v1/auth/email/**",
             "/api/v1/members/sign-up",
             "/api/v1/members/password",
             "/swagger/**",
@@ -28,6 +27,10 @@ public final class SecurityPaths {
             "/api/v1/admin/**",
     };
 
+    private static final String[] ADMIN_WITH_MANAGER = {
+            "/api/v1/posts/**",
+    };
+
     public static String[] permitAll() {
         return PERMIT_ALL.clone();
     }
@@ -40,4 +43,7 @@ public final class SecurityPaths {
         return ADMIN.clone();
     }
 
+    public static String[] adminWithManager() {
+        return ADMIN_WITH_MANAGER.clone();
+    }
 }

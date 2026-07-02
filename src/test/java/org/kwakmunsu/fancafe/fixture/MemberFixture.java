@@ -3,6 +3,7 @@ package org.kwakmunsu.fancafe.fixture;
 import java.util.Objects;
 import org.kwakmunsu.fancafe.member.domain.Member;
 import org.kwakmunsu.fancafe.member.domain.PasswordEncoder;
+import org.kwakmunsu.fancafe.member.domain.Role;
 
 public class MemberFixture {
 
@@ -30,6 +31,18 @@ public class MemberFixture {
     public static Member bannedMember() {
         Member member = member();
         member.ban();
+        return member;
+    }
+
+    public static Member creatorMember() {
+        Member member = member();
+        member.changeRole(Role.ROLE_CREATOR);
+        return member;
+    }
+
+    public static Member managerMember() {
+        Member member = member();
+        member.changeRole(Role.ROLE_MANAGER);
         return member;
     }
 

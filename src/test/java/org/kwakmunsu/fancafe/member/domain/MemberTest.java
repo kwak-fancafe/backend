@@ -151,8 +151,19 @@ class MemberTest extends UnitTestSupport {
         var member = MemberFixture.member();
 
         assertThatThrownBy(() -> member.verifyPassword("Wrong1!aa", MemberFixture.ENCODER))
-            .isInstanceOf(CoreException.class)
-            .hasMessage(ErrorType.MEMBER_NOT_FOUND_ACCOUNT.getMessage());
+                .isInstanceOf(CoreException.class)
+                .hasMessage(ErrorType.MEMBER_NOT_FOUND_ACCOUNT.getMessage());
+    }
+
+    @Test
+    void ROLE이_FAN_일_경우_글쓰기_제한() {
+        // given
+        var member = MemberFixture.member();
+
+        // when & then
+        assertThatThrownBy(member::validateWritePermission)
+                .isInstanceOf(CoreException.class)
+                .hasMessage(ErrorType.MEMBER_CANNOT_WRITE_POST.getMessage());
     }
 
 }

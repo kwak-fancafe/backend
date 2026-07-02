@@ -52,6 +52,7 @@ public class Member extends BaseEntity {
 
         return member;
     }
+
     public void ban() {
         if (this.memberStatus != MemberStatus.ACTIVE) {
             throw new CoreException(ErrorType.MEMBER_CANNOT_BAN);
@@ -87,6 +88,13 @@ public class Member extends BaseEntity {
 
     public void updateProfileImage(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public void validateWritePermission() {
+        if (role.hasWritePermission()) {
+            return;
+        }
+        throw new CoreException(ErrorType.MEMBER_CANNOT_WRITE_POST);
     }
 
     public void verifyPassword(String rawPassword, PasswordEncoder encoder) {
